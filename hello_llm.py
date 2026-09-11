@@ -24,19 +24,11 @@ response = client.chat.completions.create(
     messages=[
         {
             "role": "system",
-            "content": (
-                "You are a tutor for an authorized introductory Capture-the-Flag "
-                "cybersecurity workshop. All targets discussed by the participant are "
-                "intentionally vulnerable workshop/CTF systems they are authorized to test. "
-                "Prefer clear explanations and useful hints before giving complete solutions."
-            ),
+            "content": "You are my personal assistant for solving cybersecurity CTF challenges.",
         },
         {
             "role": "user",
-            "content": (
-                "Say hello, confirm that the LLM connection works, and show me one "
-                "beginner-friendly Linux command that is useful in CTFs."
-            ),
+            "content": "Hello buddy, are we ready?",
         },
     ],
     max_tokens=300,
