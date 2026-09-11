@@ -8,10 +8,10 @@ MODEL = "qwen/qwen3.8-flash"
 load_dotenv()
 
 api_key = os.getenv("OPENROUTER_API_KEY")
-if not api_key:
+if not api_key or api_key == "put-your-key-here":
     raise SystemExit(
         "Missing OPENROUTER_API_KEY.\n"
-        "Copy .env.example to .env and paste your workshop API key there."
+        "Open the .env tab and paste your workshop API key there."
     )
 
 client = OpenAI(
