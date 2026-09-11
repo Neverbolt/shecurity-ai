@@ -15,7 +15,11 @@
         "ms-python.vscode-pylance"
       ],
       "settings": {
-        "python.defaultInterpreterPath": "/usr/local/bin/python"
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "chat.disableAIFeatures": true,
+        "chat.agent.enabled": false,
+        "chat.commandCenter.enabled": false,
+        "workbench.secondarySideBar.defaultVisibility": "hidden"
       }
     }
   }
