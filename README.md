@@ -45,7 +45,7 @@ The starter uses:
 qwen/qwen3.8-flash
 ```
 
-through OpenRouter's OpenAI-compatible API.
+through OpenRouter's OpenAI-compatible API. We have only enabled this model for you, but if you supply your own OpenRouter API key, you can use any model available on there.
 
 ## 4. Experiment
 
@@ -55,19 +55,12 @@ Edit `hello_llm.py`, change the user message, and run it again:
 python hello_llm.py
 ```
 
-The API client is standard Python using the `openai` package:
+When you are done with one part of the exercise you can either continue working in the same file, or copy the file to a new one.
 
-```python
-from openai import OpenAI
+## Keeping your results
 
-client = OpenAI(
-    base_url="https://openrouter.ai/api/v1",
-    api_key="...",
-)
-```
+This codespace will be deleted after a period of inactivity. If you want to keep your work, you can either:
 
-## Workshop scope
-
-The LLM is intended to help with the authorized CTF exercises in this workshop. Use it as a tutor: ask what commands mean, ask for hints, have it explain code, or use it to help write small scripts.
-
-Do not use workshop credentials or infrastructure against systems outside the authorized CTF environment.
+- Download the files to your local machine.
+- Fork the repository and create a new codespace in your fork.
+- Use GitHub's "Save" feature to save your work in the cloud.
