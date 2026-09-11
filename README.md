@@ -8,30 +8,24 @@ You do **not** need to install Python, Docker, VS Code, or the OpenAI SDK locall
 
 1. Sign in to GitHub.
 2. Open this repository.
-3. Click **Code** → **Codespaces** → **Create codespace on main**.
+3. Click **Use this template** → **Open in a codespace**.
 4. Wait until VS Code opens in your browser.
 
-Python and the required packages are installed automatically.
+Python and the required packages are installed automatically. The workshop also creates a local `.env` file for your API key and opens the important files for you.
 
 ## 2. Add your workshop API key
 
-In the VS Code terminal, run:
-
-```bash
-cp .env.example .env
-```
-
-Open `.env` and replace the placeholder with the OpenRouter API key you received for the workshop:
+Open the `.env` tab and replace the placeholder with the OpenRouter API key you received for the workshop:
 
 ```text
 OPENROUTER_API_KEY=sk-or-v1-...
 ```
 
-Do not share your key. The `.env` file is ignored by Git.
+Do not share your key. The `.env` file is ignored by Git, and a pre-commit hook blocks accidental commits of OpenRouter keys.
 
 ## 3. Test the LLM connection
 
-Run:
+Run this in the VS Code terminal:
 
 ```bash
 python hello_llm.py
@@ -45,7 +39,7 @@ The starter uses:
 qwen/qwen3.8-flash
 ```
 
-through OpenRouter's OpenAI-compatible API. We have only enabled this model for you, but if you supply your own OpenRouter API key, you can use any model available on there.
+through OpenRouter's OpenAI-compatible API. We have only enabled this model for the workshop key. If you supply your own OpenRouter API key, you can use any model available to your account.
 
 ## 4. Experiment
 
@@ -55,12 +49,10 @@ Edit `hello_llm.py`, change the user message, and run it again:
 python hello_llm.py
 ```
 
-When you are done with one part of the exercise you can either continue working in the same file, or copy the file to a new one.
+When you are done with one part of the exercise, you can continue working in the same file or copy it to a new one.
 
 ## Keeping your results
 
-This codespace will be deleted after a period of inactivity. If you want to keep your work, you can either:
+A codespace created from the template is initially just your cloud workspace. If you want to keep your work permanently, use **Publish to GitHub** from the Source Control view in VS Code. GitHub will create a repository in your account containing your work.
 
-- Download the files to your local machine.
-- Fork the repository and create a new codespace in your fork.
-- Use GitHub's "Save" feature to save your work in the cloud.
+You can also download individual files if you prefer.
