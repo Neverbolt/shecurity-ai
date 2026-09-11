@@ -5,7 +5,6 @@
   "customizations": {
     "codespaces": {
       "openFiles": [
-        "README.md",
         ".env",
         "hello_llm.py"
       ]
