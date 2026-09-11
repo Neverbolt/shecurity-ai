@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Protect workshop API keys from accidental commits.
+# This hook checks only staged files, so local .env files remain untouched.
+
+blocked=0
+
+while IFS= read -r -d '' file; do
+  # Block dotenv files if someone force-adds them, but allow the safe template.
+  case "$file" in
+    .env|*/.env|.env.*|*/.env.*)
+      if [[ "$file" != ".env.example" && "$file" != */.env.example ]]; then
+        echo "ERROR: refusing to commit dotenv file: $file" >&2
+        blocked=1
+        continue
+      fi
+      ;;
+  esac
+
+  # Skip deleted files and files that cannot be read from the index.
+  if ! git cat-file -e ":$file" 2>/dev/null; then
+    continue
+  fi
+
+  # OpenRouter API keys are long sk-or-v1-* values. The placeholder in
+  # .env.example is intentionally too short to match this expression.
+  if git show ":$file" 2>/dev/null | grep -Eaq 'sk-or-v1-[A-Za-z0-9_-]{20,}'; then
+    echo "ERROR: possible OpenRouter API key found in staged file: $file" >&2
+    blocked=1
+  fi
+done < <(git diff --cached --name-only --diff-filter=ACMR -z)
+
+if [[ "$blocked" -ne 0 ]]; then
+  cat >&2 <<'EOF'
+
+Commit blocked to protect workshop credentials.
+Move API keys into .env and keep only placeholders in tracked files.
+If a real key was exposed, rotate/revoke it before continuing.
+EOF
+  exit 1
+fi
