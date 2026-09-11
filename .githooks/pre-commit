@@ -7,14 +7,12 @@ set -euo pipefail
 blocked=0
 
 while IFS= read -r -d '' file; do
-  # Block dotenv files if someone force-adds them, but allow the safe template.
+  # Block dotenv files if someone force-adds them.
   case "$file" in
     .env|*/.env|.env.*|*/.env.*)
-      if [[ "$file" != ".env.example" && "$file" != */.env.example ]]; then
-        echo "ERROR: refusing to commit dotenv file: $file" >&2
-        blocked=1
-        continue
-      fi
+      echo "ERROR: refusing to commit dotenv file: $file" >&2
+      blocked=1
+      continue
       ;;
   esac
 
@@ -23,8 +21,7 @@ while IFS= read -r -d '' file; do
     continue
   fi
 
-  # OpenRouter API keys are long sk-or-v1-* values. The placeholder in
-  # .env.example is intentionally too short to match this expression.
+  # Detect real-looking OpenRouter API keys in staged content.
   if git show ":$file" 2>/dev/null | grep -Eaq 'sk-or-v1-[A-Za-z0-9_-]{20,}'; then
     echo "ERROR: possible OpenRouter API key found in staged file: $file" >&2
     blocked=1
@@ -35,7 +32,7 @@ if [[ "$blocked" -ne 0 ]]; then
   cat >&2 <<'EOF'
 
 Commit blocked to protect workshop credentials.
-Move API keys into .env and keep only placeholders in tracked files.
+Keep API keys only in your local .env file.
 If a real key was exposed, rotate/revoke it before continuing.
 EOF
   exit 1
