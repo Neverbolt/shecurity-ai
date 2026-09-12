@@ -11,17 +11,19 @@ You do **not** need to install Python, Docker, VS Code, or the OpenAI SDK locall
 3. Click **Use this template** → **Open in a codespace**.
 4. Wait until VS Code opens in your browser.
 
-Python and the required packages are installed automatically. The workshop also creates a local `.env` file for your API key and opens the important files for you.
+Python and the required packages are installed automatically. The workshop also creates a local `.env` file and opens `.env` plus `hello_llm.py` for you.
 
-## 2. Add your workshop API key
+## 2. Add your workshop credentials
 
-Open the `.env` tab and replace the placeholder with the OpenRouter API key you received for the workshop:
+Open the `.env` tab. The CTFd URL and workshop category are already configured.
 
-```text
-OPENROUTER_API_KEY=sk-or-v1-...
-```
+Replace these three placeholders with the credentials you received for the workshop:
 
-Do not share your key. The `.env` file is ignored by Git, and a pre-commit hook blocks accidental commits of OpenRouter keys.
+- `OPENROUTER_API_KEY` — your workshop LLM API key
+- `CTFD_USERNAME` — your CTFd player username
+- `CTFD_PASSWORD` — your CTFd player password
+
+Do not share these credentials. The `.env` file is ignored by Git, and a pre-commit hook blocks accidental commits of OpenRouter keys, CTFd passwords, and dotenv files.
 
 ## 3. Test the LLM connection
 
@@ -41,9 +43,35 @@ qwen/qwen3.8-flash
 
 through OpenRouter's OpenAI-compatible API. We have only enabled this model for the workshop key. If you supply your own OpenRouter API key, you can use any model available to your account.
 
-## 4. Experiment
+## 4. CTFd tools available to the LLM
 
-Edit `hello_llm.py`, change the user message, and run it again:
+`hello_llm.py` exposes three local tools to the model:
+
+- `get_challenge_description` — load the visible description and metadata for a challenge
+- `spawn_challenge` — start or reuse your per-user challenge instance
+- `submit_flag` — submit a candidate flag to CTFd
+
+The CTFd username and password stay local in `.env`; they are used by `ctf.py` to log in and are not sent to the LLM.
+
+A challenge can be selected by workshop number, by a case-insensitive name substring, or by a raw CTFd challenge id.
+
+For example, change the user message in `hello_llm.py` to something like:
+
+```text
+Get the description for challenge 3 and start my instance.
+```
+
+Then run:
+
+```bash
+python hello_llm.py
+```
+
+The model can call the CTFd tools automatically when needed.
+
+## 5. Experiment
+
+Edit the user message in `hello_llm.py` and run it again:
 
 ```bash
 python hello_llm.py
