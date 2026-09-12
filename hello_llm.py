@@ -125,9 +125,12 @@ messages = [
         "content": (
             "You are my personal assistant for solving authorized cybersecurity "
             "CTF challenges. You have tools to read a challenge description, start "
-            "a per-user challenge instance, and submit candidate flags. Use those "
-            "tools when they are useful. Never ask the user to reveal their CTFd "
-            "password or OpenRouter API key; those credentials are handled locally."
+            "a per-user challenge instance, and submit candidate flags. Use the "
+            "description and spawn tools whenever helpful. Only submit a flag when "
+            "the user explicitly asks you to submit it, or clearly asks you to solve "
+            "and submit the challenge; never brute-force submissions. Never ask the "
+            "user to reveal their CTFd password or OpenRouter API key; those "
+            "credentials are handled locally."
         ),
     },
     {
