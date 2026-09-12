@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Protect workshop API keys from accidental commits.
+# Protect workshop credentials from accidental commits.
 # This hook checks only staged files, so local .env files remain untouched.
 
 blocked=0
@@ -21,9 +21,19 @@ while IFS= read -r -d '' file; do
     continue
   fi
 
+  staged=$(git show ":$file" 2>/dev/null || true)
+
   # Detect real-looking OpenRouter API keys in staged content.
-  if git show ":$file" 2>/dev/null | grep -Eaq 'sk-or-v1-[A-Za-z0-9_-]{20,}'; then
+  if printf '%s' "$staged" | grep -Eaq 'sk-or-v1-[A-Za-z0-9_-]{20,}'; then
     echo "ERROR: possible OpenRouter API key found in staged file: $file" >&2
+    blocked=1
+  fi
+
+  # Detect CTFd password assignments, except for our known dummy placeholder.
+  if printf '%s' "$staged" \
+      | grep -Ea 'CTFD_PASSWORD[[:space:]]*=' \
+      | grep -Evq 'CTFD_PASSWORD[[:space:]]*=[[:space:]]*put-your-ctfd-password-here'; then
+    echo "ERROR: possible CTFd password found in staged file: $file" >&2
     blocked=1
   fi
 done < <(git diff --cached --name-only --diff-filter=ACMR -z)
@@ -32,8 +42,8 @@ if [[ "$blocked" -ne 0 ]]; then
   cat >&2 <<'EOF'
 
 Commit blocked to protect workshop credentials.
-Keep API keys only in your local .env file.
-If a real key was exposed, rotate/revoke it before continuing.
+Keep API keys and CTFd passwords only in your local .env file.
+If a real credential was exposed, rotate/change it before continuing.
 EOF
   exit 1
 fi
