@@ -16,6 +16,7 @@
       ],
       "settings": {
         "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "files.autoSave": "onFocusChange",
         "chat.disableAIFeatures": true,
         "chat.agent.enabled": false,
         "chat.commandCenter.enabled": false,
