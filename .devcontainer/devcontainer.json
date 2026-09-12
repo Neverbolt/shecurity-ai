@@ -1,7 +1,7 @@
 {
   "name": "Shecurity AI Workshop",
   "image": "mcr.microsoft.com/devcontainers/python:1-3.12-bookworm",
-  "postCreateCommand": "python -m pip install --upgrade pip && pip install -r requirements.txt && chmod +x .githooks/pre-commit && git config core.hooksPath .githooks && (test -f .env || printf '# Paste your workshop OpenRouter API key below.\\nOPENROUTER_API_KEY=put-your-key-here\\n' > .env)",
+  "postCreateCommand": "python -m pip install --upgrade pip && pip install -r requirements.txt && chmod +x .githooks/pre-commit && git config core.hooksPath .githooks && (test -f .env || printf '# Paste your workshop credentials below.\\nOPENROUTER_API_KEY=put-your-key-here\\n\\n# CTFd player login used by ctf.py tools.\\nCTFD_URL=https://shecurity.em0.at\\nCTFD_CATEGORY=pentesting-with-ai\\nCTFD_USERNAME=put-your-ctfd-username-here\\nCTFD_PASSWORD=put-your-ctfd-password-here\\n' > .env)",
   "customizations": {
     "codespaces": {
       "openFiles": [
