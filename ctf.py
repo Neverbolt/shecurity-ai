@@ -262,3 +262,83 @@ def submit_flag(challenge: str | int, flag: str) -> dict:
         "message": data.get("message"),
         "success": body.get("success", False),
     }
+
+
+TOOLS = [
+    {
+        "type": "function",
+        "function": {
+            "name": "spawn_challenge",
+            "description": (
+                "Start a per-user CTFd challenge instance, or return the existing "
+                "instance if it is already running."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "challenge": {
+                        "type": "string",
+                        "description": (
+                            "Challenge selector: workshop number such as '3', "
+                            "case-insensitive name substring, or raw CTFd id."
+                        ),
+                    }
+                },
+                "required": ["challenge"],
+                "additionalProperties": False,
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_challenge_description",
+            "description": "Get the visible CTFd description and metadata for a challenge.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "challenge": {
+                        "type": "string",
+                        "description": (
+                            "Challenge selector: workshop number, name substring, "
+                            "or raw CTFd id."
+                        ),
+                    }
+                },
+                "required": ["challenge"],
+                "additionalProperties": False,
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "submit_flag",
+            "description": "Submit a candidate flag for a challenge to CTFd.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "challenge": {
+                        "type": "string",
+                        "description": (
+                            "Challenge selector: workshop number, name substring, "
+                            "or raw CTFd id."
+                        ),
+                    },
+                    "flag": {
+                        "type": "string",
+                        "description": "Candidate flag to submit.",
+                    },
+                },
+                "required": ["challenge", "flag"],
+                "additionalProperties": False,
+            },
+        },
+    },
+]
+
+TOOL_FUNCTIONS = {
+    "spawn_challenge": spawn_challenge,
+    "get_challenge_description": get_challenge_description,
+    "submit_flag": submit_flag,
+}
